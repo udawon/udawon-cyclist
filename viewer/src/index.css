@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "@tailwindcss/typography";
+
+/* CSS 변수: 다크모드 */
+:root {
+  --rf-bg-dot: #e2e5ea;
+}
+.dark {
+  --rf-bg-dot: #374151;
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+/* React Flow 컨트롤 */
+.react-flow__controls {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08) !important;
+}
+.react-flow__controls-button {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  color: #9ca3af !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+.react-flow__controls-button:hover {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+}
+.dark .react-flow__controls-button {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #9ca3af !important;
+}
+.dark .react-flow__controls-button:hover {
+  background: #374151 !important;
+  color: #d1d5db !important;
+}
+.react-flow__controls-button svg {
+  fill: currentColor !important;
+}
+
+/* 엣지 기본 스타일 */
+.react-flow__edge-path {
+  transition: opacity 0.2s ease, stroke-width 0.2s ease;
+}
+
+/* 애니메이션 엣지 */
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 6 3;
+  animation: edge-flow 0.6s linear infinite;
+}
+
+@keyframes edge-flow {
+  to {
+    stroke-dashoffset: -9;
+  }
+}
+
+/* 노드 상태: 호버 체인 내 */
+.react-flow__node.node-in-chain {
+  transition: scale 0.15s ease, filter 0.15s ease;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08));
+  z-index: 10 !important;
+}
+
+/* 노드 상태: 호버 체인 외 */
+.react-flow__node.node-dimmed {
+  transition: opacity 0.15s ease, filter 0.15s ease;
+  opacity: 0.35;
+  filter: grayscale(0.4);
+}
+
+/* 노드 상태: 클릭 선택됨 */
+.react-flow__node.node-selected {
+  z-index: 20 !important;
+}

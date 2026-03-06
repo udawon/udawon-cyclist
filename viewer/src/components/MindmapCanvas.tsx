@@ -147,7 +147,7 @@ export default function MindmapCanvas({ data, isPlaceholder }: Props) {
           onNodeMouseEnter={handleNodeMouseEnter}
           onNodeMouseLeave={handleNodeMouseLeave}
           fitView
-          fitViewOptions={{ padding: 0.15 }}
+          fitViewOptions={{ padding: 0.15, minZoom: 0.55, maxZoom: 1.2 }}
           proOptions={{ hideAttribution: true }}
           minZoom={0.3}
           maxZoom={2}

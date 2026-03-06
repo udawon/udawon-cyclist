@@ -12,7 +12,10 @@
       "mcp__plugin_playwright_playwright__browser_take_screenshot",
       "mcp__plugin_playwright_playwright__browser_resize",
       "Bash(curl:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(ls:*)"
     ]
   }
 }

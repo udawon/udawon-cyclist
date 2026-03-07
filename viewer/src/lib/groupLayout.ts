@@ -218,12 +218,12 @@ export function computeGroupLayout(allNodes: MindmapNode[]): { nodes: Node[]; ed
         id: `e-${n.parentId}-${n.id}`,
         source: n.parentId!,
         target: n.id,
-        type: 'smoothstep',
+        type: isCrossGroup ? 'smoothstep' : 'straight',
         ...(isCrossGroup
           ? { sourceHandle: 'right-source', targetHandle: 'left-target' }
           : {}),
         style: { stroke: edgeColor, strokeWidth: 1.5 },
-        pathOptions: { borderRadius: 12 },
+        ...(isCrossGroup ? { pathOptions: { borderRadius: 12 } } : {}),
       }
     })
 

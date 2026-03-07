@@ -5,5 +5,12 @@
     "description": "팀 업무 가시성과 동기부여를 위한 협업툴 개선 브레인스토밍",
     "createdAt": "2026-03-06T00:00:00.000Z",
     "docs": ["SPEC", "PRD", "TASKS"]
+  },
+  {
+    "slug": "task-scoring",
+    "name": "프로젝트/프로덕트 관리 프레임워크",
+    "description": "업무 난이도×완성도 스코어링으로 팀원 역량을 정량화하는 관리 프레임워크",
+    "createdAt": "2026-03-07T00:00:00.000Z",
+    "docs": ["SPEC", "PRD", "TASKS"]
   }
 ]

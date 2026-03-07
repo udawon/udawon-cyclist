@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import { useThemeStore } from '../stores/useThemeStore'
 
 interface GroupData {
   label: string
@@ -7,12 +8,14 @@ interface GroupData {
 }
 
 function GroupNode({ data }: { data: GroupData }) {
+  const isDark = useThemeStore((s) => s.theme) === 'dark'
+
   return (
     <div
       className="w-full h-full rounded-2xl"
       style={{
-        backgroundColor: `${data.color}08`,
-        border: `1.5px solid ${data.color}22`,
+        backgroundColor: `${data.color}${isDark ? '18' : '08'}`,
+        border: `1.5px solid ${data.color}${isDark ? '40' : '22'}`,
       }}
     >
       <div className="flex items-center gap-2.5 px-4 pt-3 pb-1">

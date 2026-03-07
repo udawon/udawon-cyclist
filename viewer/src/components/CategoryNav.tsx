@@ -23,7 +23,7 @@ export default function CategoryNav({ activeCategories, focusedCategory, onCateg
   const visibleCategories = CATEGORIES.filter((c) => activeCategories.has(c.key))
 
   return (
-    <div className="w-48 h-fit border-l border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 flex flex-col flex-shrink-0">
+    <div className="w-[154px] h-fit border-l border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 flex flex-col flex-shrink-0">
       <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
         <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
           카테고리

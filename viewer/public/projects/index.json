@@ -12,5 +12,12 @@
     "description": "업무 난이도×완성도 스코어링으로 팀원 역량을 정량화하는 관리 프레임워크",
     "createdAt": "2026-03-07T00:00:00.000Z",
     "docs": ["SPEC", "PRD", "TASKS"]
+  },
+  {
+    "slug": "realestate-listing",
+    "name": "부동산 매물장 디지털화",
+    "description": "수기 매물장을 전용 웹앱으로 전환하여 검색/수정 시간을 대폭 절감",
+    "createdAt": "2026-03-07T00:00:00.000Z",
+    "docs": ["SPEC", "PRD", "TASKS"]
   }
 ]

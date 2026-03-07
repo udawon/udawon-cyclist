@@ -1,9 +1,0 @@
-[
-  {
-    "slug": "sticky-office",
-    "name": "우리 팀의 업무 프레임워크",
-    "description": "상시 상주형 협업툴 Sticky Office 브레인스토밍",
-    "createdAt": "2026-03-06T00:00:00.000Z",
-    "docs": ["SPEC", "PRD", "TASKS"]
-  }
-]

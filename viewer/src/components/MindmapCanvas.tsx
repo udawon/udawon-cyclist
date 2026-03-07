@@ -1,17 +1,20 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import {
   ReactFlow,
+  ReactFlowProvider,
+  useReactFlow,
   Background,
   BackgroundVariant,
   Controls,
   type NodeTypes,
   type NodeMouseHandler,
 } from '@xyflow/react'
-import type { MindmapData, MindmapNode } from '../lib/types'
+import type { MindmapData, MindmapNode, NodeCategory } from '../lib/types'
 import { computeGroupLayout } from '../lib/groupLayout'
 import MindmapNodeComponent from './MindmapNode'
 import GroupNodeComponent from './GroupNode'
 import DetailPanel from './DetailPanel'
+import CategoryNav from './CategoryNav'
 import { useThemeStore } from '../stores/useThemeStore'
 
 const nodeTypes: NodeTypes = {
@@ -47,15 +50,53 @@ interface Props {
   isPlaceholder: boolean
 }
 
-export default function MindmapCanvas({ data, isPlaceholder }: Props) {
+// 초기 뷰 포커스용 카테고리 우선순위
+const INITIAL_FOCUS_ORDER: NodeCategory[] = ['문제정의', '핵심문제']
+
+function MindmapCanvasInner({ data, isPlaceholder }: Props) {
   const [selectedNode, setSelectedNode] = useState<MindmapNode | null>(null)
   const [hoveredChain, setHoveredChain] = useState<Set<string> | null>(null)
+  const [focusedCategory, setFocusedCategory] = useState<NodeCategory | null>(null)
   const isDark = useThemeStore((s) => s.theme) === 'dark'
+  const { fitView, getNodes } = useReactFlow()
+  const initialFocusDone = useRef(false)
 
   const { nodes: flowNodes, edges: flowEdges } = useMemo(
     () => computeGroupLayout(data.nodes),
     [data.nodes]
   )
+
+  // 데이터에 존재하는 카테고리 목록
+  const activeCategories = useMemo(() => {
+    return new Set(data.nodes.map((n) => n.category))
+  }, [data.nodes])
+
+  // 카테고리 클릭 → 해당 그룹으로 뷰 이동
+  const handleCategoryClick = useCallback((category: NodeCategory) => {
+    setFocusedCategory(category)
+    setSelectedNode(null)
+    const groupId = `group-${category}`
+    setTimeout(() => {
+      fitView({ nodes: [{ id: groupId }], padding: 0.3, duration: 400 })
+    }, 50)
+  }, [fitView])
+
+  // 초기 진입 시 문제정의 그룹으로 포커스
+  useEffect(() => {
+    if (initialFocusDone.current) return
+    const nodes = getNodes()
+    if (nodes.length === 0) return
+
+    const targetCategory = INITIAL_FOCUS_ORDER.find((cat) => activeCategories.has(cat))
+    if (targetCategory) {
+      initialFocusDone.current = true
+      setFocusedCategory(targetCategory)
+      const groupId = `group-${targetCategory}`
+      setTimeout(() => {
+        fitView({ nodes: [{ id: groupId }], padding: 0.3, duration: 600 })
+      }, 100)
+    }
+  }, [flowNodes, fitView, getNodes, activeCategories])
 
   // 호버/선택 상태에 따라 노드 스타일링
   const styledNodes = useMemo(() => {
@@ -110,6 +151,7 @@ export default function MindmapCanvas({ data, isPlaceholder }: Props) {
   const handleNodeClick: NodeMouseHandler = useCallback((_, node) => {
     if (node.type === 'groupNode') return
     setSelectedNode(node.data as unknown as MindmapNode)
+    setFocusedCategory(null)
   }, [])
 
   const handlePaneClick = useCallback(() => {
@@ -171,15 +213,29 @@ export default function MindmapCanvas({ data, isPlaceholder }: Props) {
         </ReactFlow>
       </div>
 
-      {/* 디테일 패널 */}
-      {selectedNode && (
+      {/* 우측 패널: 노드 선택 시 상세 패널, 아닐 때 카테고리 탭 메뉴 */}
+      {selectedNode ? (
         <DetailPanel
           node={selectedNode}
           data={data}
           onClose={() => setSelectedNode(null)}
           onNavigate={setSelectedNode}
         />
+      ) : (
+        <CategoryNav
+          activeCategories={activeCategories}
+          focusedCategory={focusedCategory}
+          onCategoryClick={handleCategoryClick}
+        />
       )}
     </div>
+  )
+}
+
+export default function MindmapCanvas(props: Props) {
+  return (
+    <ReactFlowProvider>
+      <MindmapCanvasInner {...props} />
+    </ReactFlowProvider>
   )
 }

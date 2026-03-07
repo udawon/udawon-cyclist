@@ -1,4 +1,4 @@
-# 업무 배분 프레임워크 - 기능 요구사항 (PRD)
+# 업무 분배 개선 방향성 - 기능 요구사항 (PRD)
 
 > PHVI 사이클 기반: 가설 = FR, 검증 = Acceptance Criteria
 

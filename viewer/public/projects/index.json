@@ -1,8 +1,8 @@
 [
   {
     "slug": "sticky-office",
-    "name": "업무 프레임워크 점검",
-    "description": "팀 업무 가시성과 동기부여를 위한 업무 프레임워크 점검",
+    "name": "업무 협업툴 개선 방향책",
+    "description": "팀 업무 가시성과 동기부여를 위한 협업툴 개선 브레인스토밍",
     "createdAt": "2026-03-06T00:00:00.000Z",
     "docs": ["SPEC", "PRD", "TASKS"]
   }

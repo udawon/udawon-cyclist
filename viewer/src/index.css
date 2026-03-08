@@ -92,3 +92,19 @@
 .react-flow__node.node-selected {
   z-index: 20 !important;
 }
+
+/* 모바일: 줌 컨트롤을 하단 칩 바 위로 올림 */
+@media (max-width: 767px) {
+  .react-flow__controls {
+    bottom: 52px !important;
+  }
+}
+
+/* 모바일 카테고리 칩 바 스크롤바 숨김 */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

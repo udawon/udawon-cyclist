@@ -170,7 +170,7 @@ function MindmapCanvasInner({ data, isPlaceholder }: Props) {
 
   return (
     <div className="w-full h-full flex bg-[#fafbfc] dark:bg-gray-950">
-      {/* 캔버스 */}
+      {/* 캔버스 + 모바일 하단 카테고리 칩 */}
       <div className="flex-1 relative">
         {isPlaceholder && (
           <div className="absolute top-3 left-3 z-10">
@@ -213,7 +213,7 @@ function MindmapCanvasInner({ data, isPlaceholder }: Props) {
         </ReactFlow>
       </div>
 
-      {/* 우측 패널: 노드 선택 시 상세 패널, 아닐 때 카테고리 탭 메뉴 */}
+      {/* 우측 패널: 노드 선택 시 상세 패널, 아닐 때 카테고리 네비게이션 */}
       {selectedNode ? (
         <DetailPanel
           node={selectedNode}
@@ -221,7 +221,10 @@ function MindmapCanvasInner({ data, isPlaceholder }: Props) {
           onClose={() => setSelectedNode(null)}
           onNavigate={setSelectedNode}
         />
-      ) : (
+      ) : null}
+
+      {/* 카테고리 네비게이션: 데스크탑은 우측 패널, 모바일은 캔버스 내부 하단 칩 바 */}
+      {!selectedNode && (
         <CategoryNav
           activeCategories={activeCategories}
           focusedCategory={focusedCategory}

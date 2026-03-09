@@ -21,11 +21,7 @@ export default function Header({ onToggleSidebar }: Props) {
 
       {/* 로고 */}
       <div className="flex items-center gap-2">
-        <div className="w-6 h-6 rounded-md bg-indigo-500 flex items-center justify-center">
-          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </div>
+        <img src="/favicon.svg" alt="Cyclist" className="w-6 h-6 rounded-md" />
         <span className="text-sm font-bold text-gray-900 dark:text-gray-100">Cyclist</span>
       </div>
 

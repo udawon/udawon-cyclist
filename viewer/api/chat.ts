@@ -28,6 +28,8 @@ function checkIpRate(ip: string): boolean {
 const DAILY_SESSION_LIMIT = 2
 // key: "ip::YYYY-MM-DD", value: 세션 수
 const ipDailySessions = new Map<string, number>()
+// 날짜별 전체 세션 합계 (공개 카운터용)
+const dailyTotalSessions = new Map<string, number>()
 
 function getTodayStr(): string {
   return new Date().toISOString().slice(0, 10)
@@ -43,7 +45,15 @@ function checkAndRecordSession(ip: string): boolean {
   const count = ipDailySessions.get(key) ?? 0
   if (count >= DAILY_SESSION_LIMIT) return false
   ipDailySessions.set(key, count + 1)
+  // 전체 카운터 증가
+  const today = getTodayStr()
+  dailyTotalSessions.set(today, (dailyTotalSessions.get(today) ?? 0) + 1)
   return true
+}
+
+/** 오늘 전체 세션 수 반환 */
+function getTodayTotalSessions(): number {
+  return dailyTotalSessions.get(getTodayStr()) ?? 0
 }
 
 // 오래된 항목 주기적 정리 (메모리 누수 방지)
@@ -65,6 +75,14 @@ interface RequestBody {
 }
 
 export default async function handler(req: Request) {
+  // GET: 오늘 전체 세션 수 반환 (공개 카운터)
+  if (req.method === 'GET') {
+    return new Response(
+      JSON.stringify({ count: getTodayTotalSessions(), date: getTodayStr() }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 })
   }

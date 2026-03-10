@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Bike } from 'lucide-react'
 import { ReactFlowProvider } from '@xyflow/react'
 import { useBrainstormStore } from '../../stores/useBrainstormStore'
@@ -9,6 +9,23 @@ import MindmapCanvas from '../MindmapCanvas'
 import ChatPanel from '../chat/ChatPanel'
 
 const SESSION_TTL_MS = 5 * 60 * 1000 // 5분
+
+function useTodaySessionCount() {
+  const [count, setCount] = useState<number | null>(null)
+
+  const fetch_ = useCallback(() => {
+    fetch('/api/chat')
+      .then(r => r.json())
+      .then((data: { count: number }) => setCount(data.count))
+      .catch(() => {/* 실패 시 무시 */})
+  }, [])
+
+  useEffect(() => {
+    fetch_()
+  }, [fetch_])
+
+  return { count, refetch: fetch_ }
+}
 
 export default function WelcomePage() {
   const nodes = useBrainstormStore(s => s.nodes)
@@ -74,6 +91,8 @@ export default function WelcomePage() {
     }
   }
 
+  const { count: todayCount } = useTodaySessionCount()
+
   const messages = useBrainstormStore(s => s.messages)
   const hasNodes = nodes.length > 0
   // 초기 메시지(1개) 외에 대화가 시작되면 State 2로 전환
@@ -95,6 +114,11 @@ export default function WelcomePage() {
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
             Cyclist 체험하기
           </h2>
+          {todayCount !== null && (
+            <p className="text-xs text-indigo-500 dark:text-indigo-400 mt-1 font-medium">
+              오늘 완주 횟수 : {todayCount}회
+            </p>
+          )}
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
             프로젝트 아이디어를 함께 구조화하세요
           </p>

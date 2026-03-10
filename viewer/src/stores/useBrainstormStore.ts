@@ -3,7 +3,7 @@ import type { MindmapNode } from '../lib/types'
 import { parseAssistantResponse } from '../lib/parseNodes'
 import { buildSystemPrompt } from '../lib/brainstormPrompt'
 import { saveSession, type SavedSession } from '../lib/brainstormStorage'
-import { canStartSession, recordSessionStart, getDailySessionInfo } from '../lib/rateLimiter'
+import { canStartSession, recordSessionStart } from '../lib/rateLimiter'
 
 export interface ChatMessage {
   id: string
@@ -250,5 +250,5 @@ const store = create<BrainstormState>((set, get) => ({
   }),
 }))
 
-if (import.meta.env.DEV) (window as Record<string, unknown>).__BRAINSTORM_STORE__ = store
+if (import.meta.env.DEV) (window as unknown as Record<string, unknown>).__BRAINSTORM_STORE__ = store
 export const useBrainstormStore = store

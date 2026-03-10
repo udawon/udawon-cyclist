@@ -7,7 +7,7 @@ const IP_WINDOW_MS = 60 * 60 * 1000 // 1시간
 const IP_MAX_REQUESTS = 30 // IP당 1시간 최대 30회 (2세션 × 15라운드)
 const MAX_MESSAGES = 32 // 요청 내 최대 메시지 수
 const MAX_BODY_LENGTH = 50_000 // 요청 본문 최대 크기 (문자수)
-const MAX_SYSTEM_PROMPT_LENGTH = 5_000 // 시스템 프롬프트 최대 길이
+const MAX_SYSTEM_PROMPT_LENGTH = 20_000 // 시스템 프롬프트 최대 길이 (노드 누적 고려)
 const ALLOWED_ROLES = new Set(['user', 'assistant'])
 
 const ipRequests = new Map<string, { count: number; resetAt: number }>()

@@ -114,11 +114,6 @@ export default function WelcomePage() {
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
             Cyclist 체험하기
           </h2>
-          {todayCount !== null && (
-            <p className="text-xs text-indigo-500 dark:text-indigo-400 mt-1 font-medium">
-              오늘 완주 횟수 : {todayCount}회
-            </p>
-          )}
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
             프로젝트 아이디어를 함께 구조화하세요
           </p>
@@ -152,12 +147,22 @@ export default function WelcomePage() {
             const { used, max } = getDailySessionInfo()
             const remaining = max - used
             return (
-              <p className={`text-[11px] mt-3 ${remaining > 0 ? 'text-gray-400 dark:text-gray-500' : 'text-red-500 dark:text-red-400 font-medium'}`}>
-                {remaining > 0
-                  ? `오늘 남은 브레인스토밍: ${remaining}/${max}회`
-                  : `오늘의 브레인스토밍 횟수를 모두 사용했습니다`
-                }
-              </p>
+              <div className="flex items-center justify-center gap-3 mt-3">
+                <p className={`text-[11px] ${remaining > 0 ? 'text-gray-400 dark:text-gray-500' : 'text-red-500 dark:text-red-400 font-medium'}`}>
+                  {remaining > 0
+                    ? `오늘 남은 브레인스토밍: ${remaining}/${max}회`
+                    : `오늘의 브레인스토밍 횟수를 모두 사용했습니다`
+                  }
+                </p>
+                {todayCount !== null && (
+                  <>
+                    <span className="text-[11px] text-gray-200 dark:text-gray-700">|</span>
+                    <p className="text-[11px] text-gray-300 dark:text-gray-600">
+                      오늘 완주 횟수 : {todayCount}회
+                    </p>
+                  </>
+                )}
+              </div>
             )
           })()}
         </div>

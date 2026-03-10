@@ -123,37 +123,39 @@ export default function Sidebar({ open, onClose }: Props) {
           </div>
 
           {/* 저장된 브레인스토밍 세션 (Visitor) */}
-          {savedSessions.length > 0 && (
-            <>
-              <p key={sessionsKey} className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-2 mb-2 mt-6">
-                Visitor
-              </p>
-              <div className="space-y-1">
-                {savedSessions.map(session => (
-                  <div
-                    key={session.id}
-                    onClick={() => handleLoadSession(session.id)}
-                    className={`group flex items-center justify-between px-2 py-1.5 rounded-md text-xs cursor-pointer transition-colors ${
-                      location.pathname === '/' && currentSessionId === session.id
-                        ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
-                    }`}
+          <p key={sessionsKey} className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-2 mb-2 mt-6">
+            Visitor
+          </p>
+          {savedSessions.length === 0 ? (
+            <p className="px-2 text-[11px] text-gray-300 dark:text-gray-600">
+              저장된 세션이 없습니다
+            </p>
+          ) : (
+            <div className="space-y-1">
+              {savedSessions.map(session => (
+                <div
+                  key={session.id}
+                  onClick={() => handleLoadSession(session.id)}
+                  className={`group flex items-center justify-between px-2 py-1.5 rounded-md text-xs cursor-pointer transition-colors ${
+                    location.pathname === '/' && currentSessionId === session.id
+                      ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <span className="font-medium truncate flex-1">{session.projectName}</span>
+                  <button
+                    onClick={(e) => handleDeleteSession(e, session.id)}
+                    className="hidden group-hover:block shrink-0 ml-1 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400"
+                    title="삭제"
                   >
-                    <span className="font-medium truncate flex-1">{session.projectName}</span>
-                    <button
-                      onClick={(e) => handleDeleteSession(e, session.id)}
-                      className="hidden group-hover:block shrink-0 ml-1 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400"
-                      title="삭제"
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </aside>

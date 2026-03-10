@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useThemeStore } from '../../stores/useThemeStore'
 import { Bike } from 'lucide-react'
 
@@ -20,11 +21,11 @@ export default function Header({ onToggleSidebar }: Props) {
         </svg>
       </button>
 
-      {/* 로고 */}
-      <div className="flex items-center gap-2">
+      {/* 로고 — 클릭 시 메인 페이지로 이동 */}
+      <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <Bike className="w-6 h-6 text-orange-500" strokeWidth={1.5} />
         <span className="text-sm font-bold text-gray-900 dark:text-gray-100">Cyclist</span>
-      </div>
+      </Link>
 
       <div className="flex-1" />
 

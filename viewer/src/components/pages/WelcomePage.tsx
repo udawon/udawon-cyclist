@@ -93,7 +93,7 @@ export default function WelcomePage() {
             }
           `}</style>
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-            브레인스토밍
+            Cyclist 체험하기
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
             프로젝트 아이디어를 함께 구조화하세요
@@ -118,6 +118,10 @@ export default function WelcomePage() {
             <div className="flex items-start gap-2">
               <span className="shrink-0 mt-px text-indigo-400">&#8226;</span>
               <span>문제정의 → 가설 → 검증 → 개선 순서로 사고가 확장됩니다</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="shrink-0 mt-px text-indigo-400">&#8226;</span>
+              <span>체험판에서는 <strong className="text-gray-600 dark:text-gray-300">SPEC · PRD · TASKS</strong> 문서가 제공되지 않습니다</span>
             </div>
           </div>
           {(() => {

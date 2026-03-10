@@ -84,7 +84,7 @@ export default function WelcomePage() {
       <div className="h-full flex flex-col items-center justify-center px-4">
         {/* 브랜딩 + 이용 안내 */}
         <div className="mb-8 text-center">
-          <div className="text-4xl mb-3">⚡</div>
+          <img src="/favicon.svg" alt="Cyclist" className="w-10 h-10 mb-3 mx-auto" style={{ imageRendering: 'pixelated' }} />
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
             브레인스토밍
           </h2>

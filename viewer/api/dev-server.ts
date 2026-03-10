@@ -13,8 +13,15 @@ const IP_WINDOW_MS = 60 * 60 * 1000
 const IP_MAX_REQUESTS = 60
 const MAX_MESSAGES = 32
 const MAX_BODY_LENGTH = 50_000
+const DAILY_SESSION_LIMIT = 2
 
 const ipRequests = new Map<string, { count: number; resetAt: number }>()
+const ipDailySessions = new Map<string, number>()
+const dailyTotalSessions = new Map<string, number>()
+
+function getTodayStr(): string {
+  return new Date().toISOString().slice(0, 10)
+}
 
 function checkIpRate(ip: string): boolean {
   const now = Date.now()
@@ -28,6 +35,20 @@ function checkIpRate(ip: string): boolean {
   return true
 }
 
+function checkAndRecordSession(ip: string): boolean {
+  const key = `${ip}::${getTodayStr()}`
+  const count = ipDailySessions.get(key) ?? 0
+  if (count >= DAILY_SESSION_LIMIT) return false
+  ipDailySessions.set(key, count + 1)
+  const today = getTodayStr()
+  dailyTotalSessions.set(today, (dailyTotalSessions.get(today) ?? 0) + 1)
+  return true
+}
+
+function getTodayTotalSessions(): number {
+  return dailyTotalSessions.get(getTodayStr()) ?? 0
+}
+
 const server = createServer(async (req, res) => {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -37,6 +58,13 @@ const server = createServer(async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.writeHead(200)
     res.end()
+    return
+  }
+
+  // GET: 오늘 전체 세션 수 반환
+  if (req.method === 'GET' && req.url === '/api/chat') {
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ count: getTodayTotalSessions(), date: getTodayStr() }))
     return
   }
 
@@ -93,6 +121,13 @@ const server = createServer(async (req, res) => {
   if (body.messages.length > MAX_MESSAGES) {
     res.writeHead(400, { 'Content-Type': 'application/json' })
     res.end(JSON.stringify({ error: '대화가 너무 깁니다.' }))
+    return
+  }
+
+  // 일일 세션 제한 체크
+  if (body.messages.length === 1 && !checkAndRecordSession(ip)) {
+    res.writeHead(429, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ error: '오늘의 체험 횟수를 모두 사용했습니다. 내일 다시 시도해주세요.' }))
     return
   }
 

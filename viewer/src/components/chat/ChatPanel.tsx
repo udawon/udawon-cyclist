@@ -144,7 +144,7 @@ export default function ChatPanel({ centered }: ChatPanelProps) {
     return (
       <div className="flex flex-col gap-3">
         <PhaseIndicator currentPhase={phase} round={round} />
-        <div className="flex gap-2 items-end">
+        <div className="relative">
           <textarea
             ref={inputRef}
             value={input}
@@ -153,7 +153,7 @@ export default function ChatPanel({ centered }: ChatPanelProps) {
             placeholder="프로젝트 이름이나 한 줄 설명을 입력하세요..."
             disabled={isStreaming}
             rows={2}
-            className="flex-1 resize-none rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 disabled:opacity-50 max-h-32"
+            className="w-full resize-none rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 pl-4 pr-12 py-3 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 disabled:opacity-50 max-h-32"
             onInput={e => {
               const target = e.target as HTMLTextAreaElement
               target.style.height = 'auto'
@@ -163,9 +163,9 @@ export default function ChatPanel({ centered }: ChatPanelProps) {
           <button
             onClick={handleSubmit}
             disabled={isStreaming || !input.trim()}
-            className="shrink-0 w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 shrink-0 w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="22" y1="2" x2="11" y2="13" />
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
@@ -294,7 +294,7 @@ export default function ChatPanel({ centered }: ChatPanelProps) {
             </span>
           </div>
         )}
-        <div className="flex gap-2 items-end">
+        <div className="relative">
           <textarea
             ref={inputRef}
             value={input}
@@ -303,7 +303,7 @@ export default function ChatPanel({ centered }: ChatPanelProps) {
             placeholder="메시지를 입력하세요..."
             disabled={isStreaming || isCompleted}
             rows={1}
-            className="flex-1 resize-none rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 disabled:opacity-50 max-h-32"
+            className="w-full resize-none rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 pl-3 pr-11 py-2 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 disabled:opacity-50 max-h-32"
             onInput={e => {
               const target = e.target as HTMLTextAreaElement
               target.style.height = 'auto'
@@ -313,9 +313,9 @@ export default function ChatPanel({ centered }: ChatPanelProps) {
           <button
             onClick={handleSubmit}
             disabled={isStreaming || isCompleted || !input.trim()}
-            className="shrink-0 w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 shrink-0 w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="22" y1="2" x2="11" y2="13" />
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>

@@ -157,7 +157,7 @@ export default function WelcomePage() {
                 {todayCount !== null && (
                   <>
                     <span className="text-[11px] text-gray-200 dark:text-gray-700">|</span>
-                    <p className="text-[11px] text-gray-300 dark:text-gray-600">
+                    <p className="text-[11px] text-gray-400 dark:text-gray-500">
                       오늘 완주 횟수 : {todayCount}회
                     </p>
                   </>

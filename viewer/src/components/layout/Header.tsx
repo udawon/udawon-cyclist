@@ -1,4 +1,5 @@
 import { useThemeStore } from '../../stores/useThemeStore'
+import { Bike } from 'lucide-react'
 
 interface Props {
   onToggleSidebar: () => void
@@ -21,7 +22,7 @@ export default function Header({ onToggleSidebar }: Props) {
 
       {/* 로고 */}
       <div className="flex items-center gap-2">
-        <img src="/favicon.svg" alt="Cyclist" className="w-6 h-6 rounded-md" />
+        <Bike className="w-6 h-6 text-orange-500" strokeWidth={1.5} />
         <span className="text-sm font-bold text-gray-900 dark:text-gray-100">Cyclist</span>
       </div>
 

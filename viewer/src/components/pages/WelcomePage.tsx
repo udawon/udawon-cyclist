@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { Bike } from 'lucide-react'
 import { ReactFlowProvider } from '@xyflow/react'
 import { useBrainstormStore } from '../../stores/useBrainstormStore'
 import type { MindmapData } from '../../lib/types'
@@ -84,7 +85,13 @@ export default function WelcomePage() {
       <div className="h-full flex flex-col items-center justify-center px-4">
         {/* 브랜딩 + 이용 안내 */}
         <div className="mb-8 text-center">
-          <img src="/favicon.svg" alt="Cyclist" className="w-10 h-10 mb-3 mx-auto" style={{ imageRendering: 'pixelated' }} />
+          <Bike className="w-10 h-10 mb-3 mx-auto text-orange-500 animate-[ride_2s_ease-in-out_infinite]" strokeWidth={1.5} />
+          <style>{`
+            @keyframes ride {
+              0%, 100% { transform: translateX(-4px) rotate(-2deg); }
+              50% { transform: translateX(4px) rotate(2deg); }
+            }
+          `}</style>
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
             브레인스토밍
           </h2>

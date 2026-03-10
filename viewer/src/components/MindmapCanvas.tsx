@@ -48,12 +48,13 @@ function getNodeChain(nodeId: string, allNodes: MindmapNode[]): Set<string> {
 interface Props {
   data: MindmapData
   isPlaceholder: boolean
+  autoFit?: boolean  // true면 노드 변경마다 fitView (브레인스토밍용)
 }
 
 // 초기 뷰 포커스용 카테고리 우선순위
 const INITIAL_FOCUS_ORDER: NodeCategory[] = ['문제정의', '핵심문제']
 
-function MindmapCanvasInner({ data, isPlaceholder }: Props) {
+function MindmapCanvasInner({ data, isPlaceholder, autoFit: autoFitProp }: Props) {
   const [selectedNode, setSelectedNode] = useState<MindmapNode | null>(null)
   const [hoveredChain, setHoveredChain] = useState<Set<string> | null>(null)
   const [focusedCategory, setFocusedCategory] = useState<NodeCategory | null>(null)
@@ -79,6 +80,27 @@ function MindmapCanvasInner({ data, isPlaceholder }: Props) {
     setTimeout(() => {
       fitView({ nodes: [{ id: groupId }], padding: 0.3, duration: 400 })
     }, 50)
+  }, [fitView])
+
+  // autoFit 모드: 노드 추가 시 자동 fitView (브레인스토밍용)
+  const prevNodeCount = useRef(data.nodes.length)
+  useEffect(() => {
+    if (!autoFitProp) return
+    if (data.nodes.length === 0) return
+    if (data.nodes.length === prevNodeCount.current) return
+    prevNodeCount.current = data.nodes.length
+    setTimeout(() => {
+      fitView({ padding: 0.15, duration: 400 })
+    }, 100)
+  }, [data.nodes.length, autoFitProp, fitView])
+
+  // PDF 내보내기용: 커스텀 이벤트로 fitView 트리거
+  useEffect(() => {
+    const handler = () => {
+      fitView({ padding: 0.25, duration: 0 })
+    }
+    window.addEventListener('mindmap-fit-for-export', handler)
+    return () => window.removeEventListener('mindmap-fit-for-export', handler)
   }, [fitView])
 
   // 초기 진입 시 문제정의 그룹으로 포커스
@@ -131,7 +153,7 @@ function MindmapCanvasInner({ data, isPlaceholder }: Props) {
       if (!hoveredChain) {
         return {
           ...edge,
-          style: { ...edge.style, opacity: isDark ? 0.3 : 0.15 },
+          style: { ...edge.style, opacity: isDark ? 0.4 : 0.25 },
         }
       }
 
@@ -201,9 +223,9 @@ function MindmapCanvasInner({ data, isPlaceholder }: Props) {
         >
           <Background
             variant={BackgroundVariant.Dots}
-            gap={20}
-            size={1}
-            color="var(--rf-bg-dot, #e2e5ea)"
+            gap={1}
+            size={0}
+            color="transparent"
             className="!bg-[#fafbfc] dark:!bg-gray-950"
           />
           <Controls

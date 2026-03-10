@@ -15,7 +15,24 @@
       "Bash(cp:*)",
       "Bash(npx:*)",
       "Bash(node:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:udawon-cyclist.vercel.app)",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "Skill(bkit:pdca)",
+      "Bash(grep:*)",
+      "Bash(tasklist:*)",
+      "mcp__plugin_playwright_playwright__browser_fill_form",
+      "mcp__plugin_playwright_playwright__browser_press_key",
+      "mcp__plugin_playwright_playwright__browser_wait_for",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_console_messages",
+      "mcp__plugin_playwright_playwright__browser_type",
+      "mcp__plugin_playwright_playwright__browser_run_code",
+      "Bash(netstat:*)"
     ]
   }
 }

@@ -24,11 +24,38 @@ function checkIpRate(ip: string): boolean {
   return true
 }
 
+// --- 계층 3: IP 기반 일일 세션 제한 (캐시 초기화 우회 방지) ---
+const DAILY_SESSION_LIMIT = 2
+// key: "ip::YYYY-MM-DD", value: 세션 수
+const ipDailySessions = new Map<string, number>()
+
+function getTodayStr(): string {
+  return new Date().toISOString().slice(0, 10)
+}
+
+function getDailySessionKey(ip: string): string {
+  return `${ip}::${getTodayStr()}`
+}
+
+/** 새 세션 시작 가능 여부 확인 (messages.length === 1 일 때 호출) */
+function checkAndRecordSession(ip: string): boolean {
+  const key = getDailySessionKey(ip)
+  const count = ipDailySessions.get(key) ?? 0
+  if (count >= DAILY_SESSION_LIMIT) return false
+  ipDailySessions.set(key, count + 1)
+  return true
+}
+
 // 오래된 항목 주기적 정리 (메모리 누수 방지)
 function cleanupIpMap() {
   const now = Date.now()
   for (const [ip, record] of ipRequests) {
     if (now > record.resetAt) ipRequests.delete(ip)
+  }
+  // 오늘 이전 날짜 세션 기록 정리
+  const today = getTodayStr()
+  for (const key of ipDailySessions.keys()) {
+    if (!key.endsWith(today)) ipDailySessions.delete(key)
   }
 }
 
@@ -126,6 +153,15 @@ export default async function handler(req: Request) {
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       )
     }
+  }
+
+  // 일일 세션 제한 체크 (첫 메시지 = 새 세션 시작)
+  // messages.length === 1: 사용자의 첫 번째 메시지 → 새 세션으로 카운트
+  if (body.messages.length === 1 && !checkAndRecordSession(ip)) {
+    return new Response(
+      JSON.stringify({ error: '오늘의 체험 횟수를 모두 사용했습니다. 내일 다시 시도해주세요.' }),
+      { status: 429, headers: { 'Content-Type': 'application/json' } }
+    )
   }
 
   try {
